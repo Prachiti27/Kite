@@ -66,6 +66,15 @@ public class Kite{
         hadError = true;
     }
 
+    static void error(Token token, String message){
+        if(token.type == TokenType.EOF) {
+            report(token.line, " at end", message);
+        }
+        else{
+            report(token.line, " at '" + token.lexeme + "'", message);
+        }
+    }
+
     static void error(int line, String message){
         report(line, "", message);
     }
@@ -74,9 +83,10 @@ public class Kite{
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         
-        for(Token token : tokens){
-            System.out.println(token);
-        }
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
+        if(hadError) return;
+        System.out.println(new AstPrinter().Print(expression));
     }
 
     public static void main(String[] args) throws IOException{
