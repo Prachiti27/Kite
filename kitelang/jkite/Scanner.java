@@ -137,31 +137,31 @@ class Scanner {
                 addToken(LEFT_PAREN); 
                 break;
             case ')': 
-                addToken(LEFT_PAREN); 
+                addToken(RIGHT_PAREN); 
                 break;
             case '{': 
-                addToken(LEFT_PAREN); 
+                addToken(LEFT_BRACE); 
                 break;
             case '}': 
-                addToken(LEFT_PAREN); 
+                addToken(RIGHT_BRACE); 
                 break;
             case ',': 
-                addToken(LEFT_PAREN); 
+                addToken(COMMA); 
                 break;
             case '.': 
-                addToken(LEFT_PAREN); 
+                addToken(DOT); 
                 break;
             case '-': 
-                addToken(LEFT_PAREN); 
+                addToken(MINUS); 
                 break;
             case '+': 
-                addToken(LEFT_PAREN); 
+                addToken(PLUS); 
                 break;
             case ';': 
-                addToken(LEFT_PAREN); 
+                addToken(SEMICOLON); 
                 break;
             case '*': 
-                addToken(LEFT_PAREN); 
+                addToken(STAR); 
                 break;
             case '!':
                 addToken(match('=') ? BANG_EQUAL : BANG);

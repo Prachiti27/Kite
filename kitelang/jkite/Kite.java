@@ -41,11 +41,18 @@ enum TokenType {
 }
 
 public class Kite{
+
+    private static final Interpreter interpreter = new Interpreter();
+
     static boolean hadError = false;
+    static boolean hadRuntimeError = false;
+
     private static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
         if(hadError) System.exit(65);
+
+        if(hadRuntimeError) System.exit(70);
     }
 
     private static void runPrompt() throws IOException{
@@ -79,6 +86,11 @@ public class Kite{
         report(line, "", message);
     }
 
+    static void runtimeError(RuntimeError error){
+        System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
+        hadRuntimeError = true;
+    }
+
     private static void run(String source){
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
@@ -86,7 +98,8 @@ public class Kite{
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
         if(hadError) return;
-        System.out.println(new AstPrinter().Print(expression));
+        
+        interpreter.interpret(expression);
     }
 
     public static void main(String[] args) throws IOException{
